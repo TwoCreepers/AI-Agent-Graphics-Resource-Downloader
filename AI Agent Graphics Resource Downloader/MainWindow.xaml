@@ -1,0 +1,130 @@
+﻿<Window x:Class="AI_Agent_Graphics_Resource_Downloader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AI_Agent_Graphics_Resource_Downloader"
+        mc:Ignorable="d"
+        Title="AI-Agent资源下载器" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Name="mainWindow"
+        Icon="icon.ico">
+    <Window.Resources>
+        <Storyboard x:Key="上划插入动画">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                         To="0"
+                         Duration="0:0:0.5" 
+                         AccelerationRatio="1" />
+            <!--DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                            From="0" To="1"
+                            Duration="0:0:1.0"
+                            AccelerationRatio="0.7" /-->
+        </Storyboard>
+        <Storyboard x:Key="Tab淡入动画">
+            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                         From="0" To="1" 
+                         Duration="0:0:0.5"
+                         AccelerationRatio="0.7" />
+        </Storyboard>
+        <Storyboard x:Key="淡出动画">
+            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                 From="1" To="0" 
+                 Duration="0:0:0.5"
+                 AccelerationRatio="1" />
+        </Storyboard>
+        <local:为0隐藏 x:Key="为0隐藏"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl Name="mainTabControl" HorizontalContentAlignment="Center" SelectionChanged="Tab控件点击触发器" MouseDoubleClick="Tab控件双击触发器">
+            <TabItem Name="工具">
+                <TabItem.Header>
+                    <Run Language="zh-cn" Text="工具"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="toolsfiles" Orientation="Vertical">
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Name="外观">
+                <TabItem.Header>
+                    <Run Language="zh-cn" Text="外观"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="skinfiles" Orientation="Vertical">
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Name="角色">
+                <TabItem.Header>
+                    <Run Language="zh-cn" Text="角色"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="rolefiles" Orientation="Vertical">
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Name="下载列表">
+                <TabItem.Header>
+                    <Grid>
+                        <TextBlock>
+                            <Run Language="zh-cn" Text="下载列表"/>
+                        </TextBlock>
+                        <Grid Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="47, 3, 0, 0"
+                              Visibility="{Binding ElementName=下载列表长度, Path=Text, Converter={StaticResource 为0隐藏}}">
+                            <!-- 红色圆形 -->
+                            <Ellipse Fill="#33CCFF" Width="15" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <!-- 显示数字的文本 -->
+                            <TextBlock Name="下载列表长度" Text="0" FontSize="12" Foreground="{DynamicResource {x:Static SystemColors.WindowBrush}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="下载项队列" Orientation="Vertical">
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Name="设置">
+                <TabItem.Header>
+                    <Run Language="zh-cn" Text="设置"/>
+                </TabItem.Header>
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="16" HorizontalAlignment="Center">
+                            <Run Language="zh-cn" Text="保存路径"></Run>
+                        </TextBlock>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Name="保存路径" Text="./"></TextBox>
+                            <Button Grid.Column="1" Content="浏览" Click="设置浏览按钮触发器"></Button>
+                        </Grid>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="16" HorizontalAlignment="Center">
+                            <Run Language="zh-cn" Text="自动重试"></Run>
+                        </TextBlock>
+                        <CheckBox Name="自动重试" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <CheckBox.ToolTip>
+                                <Run Language="zh-cn" Text="如果发生网络相关问题会无限重试"></Run>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
