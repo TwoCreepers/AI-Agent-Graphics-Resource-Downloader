@@ -504,7 +504,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
             {
                 下载文件上下文 上下文 = new(
                     i * partSize,
-                    i + 1 != 线程数 ? (i + 1) * partSize - 1 : 下载队列项.总大小,
+                    i + 1 != 线程数 ? (i + 1) * partSize - 1 : 下载队列项.总大小 - 1,
                     下载队列项.FilePath,
                     下载队列项.Url,
                     client);
