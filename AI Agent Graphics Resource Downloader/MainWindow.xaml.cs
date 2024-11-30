@@ -152,10 +152,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
         }
         private void 设置浏览按钮触发器(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog folderBrowserDialog = new()
-            {
-                Description = "请选择一个文件夹来保存文件: "
-            };
+            FolderBrowserDialog folderBrowserDialog = new();
             DialogResult result = folderBrowserDialog.ShowDialog();
             if (result.HasFlag(System.Windows.Forms.DialogResult.OK) && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
             {
