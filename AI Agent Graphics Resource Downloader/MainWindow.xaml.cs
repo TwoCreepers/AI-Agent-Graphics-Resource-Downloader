@@ -451,7 +451,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
         }
     }
 
-    public class NoSleepManager : IDisposable
+    public partial class NoSleepManager : IDisposable
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
