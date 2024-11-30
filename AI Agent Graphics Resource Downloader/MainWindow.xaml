@@ -123,6 +123,20 @@
                             </CheckBox.ToolTip>
                         </CheckBox>
                     </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="16" HorizontalAlignment="Center">
+                            <Run Language="zh-cn" Text="防止系统睡眠"></Run>
+                        </TextBlock>
+                        <CheckBox Name="防止系统睡眠" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="设置防止系统睡眠开启触发器" Unchecked="设置防止系统睡眠关闭触发器">
+                            <CheckBox.ToolTip>
+                                <Run Language="zh-cn" Text="防止系统睡眠"></Run>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
+                    </Grid>
                 </StackPanel>
             </TabItem>
         </TabControl>

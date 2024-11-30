@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,6 +25,8 @@ namespace AI_Agent_Graphics_Resource_Downloader
         private bool 打开过角色栏 = false;
 
         private readonly string Host;
+
+        private NoSleepManager? NoSleepManager;
         public MainWindow()
         {
             InitializeComponent();
@@ -158,6 +161,14 @@ namespace AI_Agent_Graphics_Resource_Downloader
             {
                 保存路径.Text = folderBrowserDialog.SelectedPath;
             }
+        }
+        private void 设置防止系统睡眠开启触发器(object sender, RoutedEventArgs e)
+        {
+            NoSleepManager = new();
+        }
+        private void 设置防止系统睡眠关闭触发器(object sender, RoutedEventArgs e)
+        {
+            NoSleepManager?.Dispose();
         }
         private void 可下载项按钮触发器(object sender, RoutedEventArgs e)
         {
@@ -440,6 +451,47 @@ namespace AI_Agent_Graphics_Resource_Downloader
         }
     }
 
+    public class NoSleepManager : IDisposable
+    {
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+
+        [FlagsAttribute]
+        private enum EXECUTION_STATE : uint
+        {
+            ES_AWAYMODE_REQUIRED = 0x00000040,
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
+        }
+
+        private bool _isDisposed;
+        private EXECUTION_STATE _state;
+
+        public NoSleepManager()
+        {
+            // 初始化状态
+            _state = EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_SYSTEM_REQUIRED;
+            // 防止系统进入睡眠状态
+            SetThreadExecutionState(_state);
+        }
+
+        public void Dispose()
+        {
+            if (!_isDisposed)
+            {
+                // 允许系统进入睡眠状态
+                SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+                _isDisposed = true;
+            }
+            GC.SuppressFinalize(this);
+        }
+
+        ~NoSleepManager()
+        {
+            Dispose();
+        }
+    }
     public class 多线程下载文件(HttpClient client, 下载队列项 下载队列项)
     {
         public int 线程数 { get; set; } = 8;
