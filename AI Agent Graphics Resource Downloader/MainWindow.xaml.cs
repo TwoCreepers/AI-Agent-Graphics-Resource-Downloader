@@ -84,7 +84,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
                             await 多线程下载文件.DownloadFileAsync();
                             success = true;
                         }
-                        catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+                        catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException || ex is IOException)
                         {
                             var shouldRetry = Dispatcher.Invoke(() => 自动重试.IsChecked ?? false);
                             if (shouldRetry)
@@ -93,7 +93,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
                             }
                             else
                             {
-                                var result = System.Windows.Forms.MessageBox.Show($"下载时发生网络异常: {ex.Message}\n是否重试?", "下载时发生网络异常!", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                                var result = System.Windows.Forms.MessageBox.Show($"下载时发生IO或任务异常: {ex.Message}\n是否重试?", "下载时发生IO或任务异常!", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                                 if (result.HasFlag(System.Windows.Forms.DialogResult.Yes))
                                 {
                                     continue;
@@ -104,9 +104,9 @@ namespace AI_Agent_Graphics_Resource_Downloader
                                 }
                             }
                         }
-                        catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+                        catch (Exception ex) when (ex is UnauthorizedAccessException)
                         {
-                            var result = System.Windows.Forms.MessageBox.Show($"下载时发生文件操作异常: {ex.Message}\n是否重试?", "下载时发生文件操作异常!", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                            var result = System.Windows.Forms.MessageBox.Show($"下载时发生权限异常: {ex.Message}\n是否重试?", "下载时发生权限异常!", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                             if (result.HasFlag(System.Windows.Forms.DialogResult.Yes))
                             {
                                 continue;
