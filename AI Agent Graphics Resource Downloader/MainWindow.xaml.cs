@@ -535,10 +535,9 @@ namespace AI_Agent_Graphics_Resource_Downloader
             int readBytes;
             while ((readBytes = await webStream.ReadAsync(buffer)) > 0)
             {
-                var task1 = fileStream.WriteAsync(buffer.AsMemory(0, readBytes));
+                await fileStream.WriteAsync(buffer.AsMemory(0, readBytes));
                 下载文件上下文.Beg += readBytes;
                 下载队列项.已下载 += readBytes;
-                await task1;
             }
         }
     }
