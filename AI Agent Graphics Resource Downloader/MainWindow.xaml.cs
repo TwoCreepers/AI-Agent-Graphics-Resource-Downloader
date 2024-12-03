@@ -48,19 +48,29 @@ namespace AI_Agent_Graphics_Resource_Downloader
                 throw new Exception("加载动画失败: Tab淡入动画");
             }
             var loadding = new 加载();
-            loadding.Show();
-            Host = 获取url().Result;
-            if (Host == string.Empty)
+            while (true)
             {
-                System.Windows.Forms.MessageBox.Show(
-                    "错误: 无法连接服务器", "无法连接服务器",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                    );
+                loadding.Show();
+                Host = 获取url().Result;
                 loadding.Close();
-                throw new Exception("无法连接服务器");
+                if (Host == string.Empty)
+                {
+                    var result = System.Windows.Forms.MessageBox.Show(
+                        "错误: 无法连接服务器\n是否重试？", "无法连接服务器",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Error
+                        );
+                    if (result.HasFlag(System.Windows.Forms.DialogResult.Yes))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        throw new Exception("无法连接服务器");
+                    }
+                }
+                break;
             }
-            loadding.Close();
             async Task 下载文件循环()
             {
                 using HttpClient client = new();
