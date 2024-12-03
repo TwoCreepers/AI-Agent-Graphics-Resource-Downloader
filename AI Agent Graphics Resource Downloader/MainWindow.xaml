@@ -36,6 +36,16 @@
     </Window.Resources>
     <Grid>
         <TabControl Name="mainTabControl" HorizontalContentAlignment="Center" SelectionChanged="Tab控件点击触发器" MouseDoubleClick="Tab控件双击触发器">
+            <TabItem Name="程序">
+                <TabItem.Header>
+                    <Run Language="zh-cn" Text="程序"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="updatafiles" Orientation="Vertical">
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
             <TabItem Name="工具">
                 <TabItem.Header>
                     <Run Language="zh-cn" Text="工具"/>

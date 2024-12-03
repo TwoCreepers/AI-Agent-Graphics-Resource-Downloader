@@ -20,6 +20,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
         private readonly Storyboard 上划插入动画;
         private readonly Storyboard Tab淡入动画;
 
+        private bool 打开过程序栏 = false;
         private bool 打开过工具栏 = false;
         private bool 打开过外观栏 = false;
         private bool 打开过角色栏 = false;
@@ -197,6 +198,13 @@ namespace AI_Agent_Graphics_Resource_Downloader
                     Tab淡入动画.Begin(tabItem);
                     switch (tabItem.Name)
                     {
+                        case "程序":
+                            if (!打开过程序栏)
+                            {
+                                _ = 更新程序栏();
+                            }
+                            打开过程序栏 = true;
+                            break;
                         case "工具":
                             if (!打开过工具栏)
                             {
@@ -231,6 +239,9 @@ namespace AI_Agent_Graphics_Resource_Downloader
                 {
                     switch (tabItem.Name)
                     {
+                        case "程序":
+                            _ = 更新程序栏();
+                            break;
                         case "工具":
                             _ = 更新工具栏();
                             break;
@@ -290,6 +301,21 @@ namespace AI_Agent_Graphics_Resource_Downloader
         }
 
 
+        private async Task 更新程序栏()
+        {
+            StackPanel stackPanel = updatafiles;
+            stackPanel.Children.Clear();
+            var task = 更新XXX栏(stackPanel, "files.txt", ["AI桌宠.exe"]);
+            stackPanel.IsEnabled = false;
+            var 提示 = new TextBlock()
+            {
+                Text = "正在获取信息..."
+            };
+            AddFrameworkElement(提示, stackPanel);
+            await task;
+            stackPanel.IsEnabled = true;
+            RemoveWithFrameworkElement(提示, stackPanel);
+        }
         private async Task 更新工具栏()
         {
             StackPanel stackPanel = toolsfiles;
@@ -335,14 +361,21 @@ namespace AI_Agent_Graphics_Resource_Downloader
             stackPanel.IsEnabled = true;
             RemoveWithFrameworkElement(提示, stackPanel);
         }
-        private async Task 更新XXX栏(StackPanel stackPanel, string 清单文件)
+        private async Task 更新XXX栏(StackPanel stackPanel, string 清单文件, string[]? 额外清单 = null)
         {
             try
             {
                 using var client = new HttpClient();
 
                 var 清单内容 = await client.GetStringAsync($"{Host}files/{清单文件}");
-                var 清单 = 清单内容.Split("\r\n");
+                var 清单 = 清单内容.Split("\r\n").ToList();
+                if (额外清单 != null)
+                {
+                    foreach (var item in 额外清单)
+                    {
+                        清单.Add(item);
+                    }
+                }
                 List<Task<HttpResponseMessage>> 获取信息Task = [];
                 foreach (var item in 清单)
                 {
