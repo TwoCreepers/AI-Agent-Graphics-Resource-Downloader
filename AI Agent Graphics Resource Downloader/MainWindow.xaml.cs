@@ -60,7 +60,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Error
                         );
-                    if (result.HasFlag(System.Windows.Forms.DialogResult.Yes))
+                    if (result == System.Windows.Forms.DialogResult.Yes)
                     {
                         continue;
                     }
@@ -109,8 +109,8 @@ namespace AI_Agent_Graphics_Resource_Downloader
                             else
                             {
                                 var result = System.Windows.Forms.MessageBox.Show($"下载时发生IO或任务异常: {ex.Message}\n是否重试?", "下载时发生IO或任务异常!", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                                if (result.HasFlag(System.Windows.Forms.DialogResult.Yes))
-                                {
+                                if (result == System.Windows.Forms.DialogResult.Yes)                              
+                                    {
                                     continue;
                                 }
                                 else
@@ -122,8 +122,8 @@ namespace AI_Agent_Graphics_Resource_Downloader
                         catch (Exception ex) when (ex is UnauthorizedAccessException)
                         {
                             var result = System.Windows.Forms.MessageBox.Show($"下载时发生权限异常: {ex.Message}\n是否重试?", "下载时发生权限异常!", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                            if (result.HasFlag(System.Windows.Forms.DialogResult.Yes))
-                            {
+                            if (result == System.Windows.Forms.DialogResult.Yes)                          
+                                {
                                 continue;
                             }
                             else
@@ -169,7 +169,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
         {
             FolderBrowserDialog folderBrowserDialog = new();
             DialogResult result = folderBrowserDialog.ShowDialog();
-            if (result.HasFlag(System.Windows.Forms.DialogResult.OK) && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
             {
                 保存路径.Text = folderBrowserDialog.SelectedPath;
             }
