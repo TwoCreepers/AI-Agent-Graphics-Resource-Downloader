@@ -47,9 +47,9 @@ namespace AI_Agent_Graphics_Resource_Downloader
             {
                 throw new Exception("加载动画失败: Tab淡入动画");
             }
-            var loadding = new 加载();
             while (true)
             {
+                var loadding = new 加载();
                 loadding.Show();
                 Host = 获取url().Result;
                 loadding.Close();
