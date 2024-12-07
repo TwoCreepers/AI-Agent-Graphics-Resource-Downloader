@@ -90,6 +90,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
                     });
                     多线程下载文件 多线程下载文件 = new(client, 下载队列项);
                     多线程下载文件.Init();
+
                     bool success = false;
                     while (!success)
                     {
@@ -571,7 +572,7 @@ namespace AI_Agent_Graphics_Resource_Downloader
             HTTP请求.Headers.Range = new(下载文件上下文.Beg, 下载文件上下文.End);
             using var response = await 下载文件上下文.Client.SendAsync(HTTP请求, HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
-            using var fileStream = new FileStream(下载文件上下文.FilePath, FileMode.Create, FileAccess.Write, FileShare.Write, bufferSize * 2, true);
+            using var fileStream = new FileStream(下载文件上下文.FilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, bufferSize * 2, true);
             fileStream.Seek(下载文件上下文.Beg, SeekOrigin.Begin);
             using var webStream = await response.Content.ReadAsStreamAsync();
             byte[] buffer = new byte[bufferSize];
